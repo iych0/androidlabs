@@ -1,4 +1,4 @@
-package com.example.androidlabs.data.model
+package com.example.androidlabs.domain.model
 
 data class GithubRepo(
     val id: Long,

@@ -1,6 +1,6 @@
 package com.example.androidlabs.presentation.screens.details
 
-import com.example.androidlabs.data.model.GithubRepo
+import com.example.androidlabs.domain.model.GithubRepo
 
 class sealed interface DetailsUiState {
     data object Loading : DetailsUiState
