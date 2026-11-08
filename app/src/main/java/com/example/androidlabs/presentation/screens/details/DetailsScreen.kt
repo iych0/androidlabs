@@ -14,7 +14,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.example.androidlabs.data.model.GithubRepo
+import coil.compose.AsyncImage
+import com.example.androidlabs.domain.model.GithubRepo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,11 +46,12 @@ fun RepoDetailsScreen(
         ) {
             val (avatar, langBadge, title, owner, statsRow, divider, description, updatedText) = createRefs()
 
-            Box(
+            AsyncImage(
+                model = repo.ownerAvatarUrl,
+                contentDescription = "владелец репозитория",
                 modifier = Modifier
                     .size(80.dp)
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primaryContainer)
                     .constrainAs(avatar) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
