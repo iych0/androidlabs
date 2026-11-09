@@ -7,8 +7,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
-import com.example.androidlabs.MainActivity
-import com.example.androidlabs.R
 
 class ClassNotificationReceiver : BroadcastReceiver() {
 
@@ -27,9 +25,11 @@ class ClassNotificationReceiver : BroadcastReceiver() {
         }
         notificationManager.createNotificationChannel(channel)
 
-        val openAppIntent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
+        val openAppIntent = context.packageManager
+            .getLaunchIntentForPackage(context.packageName)
+            ?.apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            } ?: Intent()
 
         val contentPendingIntent = PendingIntent.getActivity(
             context,
@@ -39,7 +39,7 @@ class ClassNotificationReceiver : BroadcastReceiver() {
         )
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(android.R.drawable.ic_lock_idle_alarm)
             .setContentTitle("class time")
             .setContentText("$userName, пора заниматься настройкой gradle")
             .setPriority(NotificationCompat.PRIORITY_HIGH)

@@ -4,10 +4,10 @@ import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.androidlabs.data.local.FileHelper
-import com.example.androidlabs.data.local.ProfileStorage
-import com.example.androidlabs.data.local.UserProfile
-import com.example.androidlabs.presentation.notifications.ClassAlarmScheduler
+import com.example.androidlabs.profile.ClassAlarmScheduler
+import com.example.androidlabs.profile.FileHelper
+import com.example.androidlabs.profile.ProfileStorage
+import com.example.androidlabs.profile.UserProfile
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

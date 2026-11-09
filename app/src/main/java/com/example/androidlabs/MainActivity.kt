@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.androidlabs.di.appModule
 import com.example.androidlabs.presentation.screens.main.MainScreen
+import com.example.androidlabs.profile.profileModule
 import com.example.androidlabs.ui.theme.AndroidLabsTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.compose.KoinApplication
@@ -19,7 +20,7 @@ class MainActivity : ComponentActivity() {
             KoinApplication(
                 configuration = koinConfiguration(declaration = {
                     androidContext(this@MainActivity)
-                    modules(appModule)
+                    modules(appModule, profileModule)
                 }),
                 content = {
                     AndroidLabsTheme {
