@@ -25,7 +25,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.androidlabs.presentation.screens.details.DetailsViewModel
 import com.example.androidlabs.presentation.screens.details.RepoDetailsScreen
+import com.example.androidlabs.presentation.screens.favorites.FavoritesScreen
 import com.example.androidlabs.presentation.screens.list.RepoListScreen
+import com.example.androidlabs.presentation.screens.profile.EditProfileScreen
+import com.example.androidlabs.presentation.screens.profile.ProfileScreen
 import com.example.androidlabs.presentation.screens.settings.SettingsScreen
 
 enum class BottomTab(val route: String, val title: String, val icon: ImageVector) {
@@ -106,11 +109,23 @@ fun MainScreen() {
             }
 
             composable(route = BottomTab.FAVORITES.route) {
-                PlaceholderScreen(title = "Раздел «Избранное»")
+                FavoritesScreen(
+                    onRepoClick = { repoId ->
+                        navController.navigate("details/$repoId")
+                    },
+                )
             }
 
             composable(route = BottomTab.PROFILE.route) {
-                PlaceholderScreen(title = "Раздел «Профиль»")
+                ProfileScreen(
+                    onEditClick = { navController.navigate("edit_profile") }
+                )
+            }
+
+            composable(route = "edit_profile") {
+                EditProfileScreen(
+                    onBackClick = { navController.popBackStack() }
+                )
             }
 
             composable(route = BottomTab.SETTINGS.route) {
@@ -119,12 +134,5 @@ fun MainScreen() {
                 )
             }
         }
-    }
-}
-
-@Composable
-fun PlaceholderScreen(title: String) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = title, style = MaterialTheme.typography.headlineMedium)
     }
 }
