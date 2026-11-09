@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.androidlabs.data.local.FileHelper
 import com.example.androidlabs.data.local.ProfileStorage
 import com.example.androidlabs.data.local.UserProfile
+import com.example.androidlabs.presentation.notifications.ClassAlarmScheduler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,12 +22,22 @@ class ProfileViewModel(
     private val _isDownloading = MutableStateFlow(false)
     val isDownloading: StateFlow<Boolean> = _isDownloading.asStateFlow()
 
+    private val timeRegex = Regex("^([01]\\d|2[0-3]):([0-5]\\d)$")
+
+    fun isValidTime(time: String): Boolean {
+        return timeRegex.matches(time.trim())
+    }
+
     fun saveProfile(
+        context: Context,
         fullName: String,
         position: String,
         resumeUrl: String,
-        avatarUri: String?
+        avatarUri: String?,
+        favoriteClassTime: String,
     ) {
+        val trimmedName = fullName.trim()
+        val trimmedTime = favoriteClassTime.trim()
         profileStorage.saveProfile(
             UserProfile(
                 fullName = fullName.trim(),
@@ -34,6 +45,12 @@ class ProfileViewModel(
                 resumeUrl = resumeUrl.trim(),
                 avatarUri = avatarUri
             )
+        )
+
+        ClassAlarmScheduler.scheduleClassReminder(
+            context = context,
+            timeString = trimmedTime,
+            userName = trimmedName
         )
     }
 

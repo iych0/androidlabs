@@ -10,7 +10,8 @@ data class UserProfile(
     val fullName: String = "Святогор Магомедов",
     val position: String = "Senior JSON/YAML developer",
     val avatarUri: String? = null,
-    val resumeUrl: String = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    val resumeUrl: String = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    val favoriteClassTime: String = ""
 )
 
 class ProfileStorage(context: Context) {

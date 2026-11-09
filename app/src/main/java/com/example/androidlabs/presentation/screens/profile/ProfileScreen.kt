@@ -98,6 +98,20 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
+            if (profile.favoriteClassTime.isNotBlank()) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Surface(
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = MaterialTheme.shapes.medium
+                ) {
+                    Text(
+                        text = "Начало пары: ${profile.favoriteClassTime}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                    )
+                }
+            }
+
             Button(
                 onClick = { viewModel.downloadAndOpenResume(context, profile.resumeUrl) },
                 enabled = !isDownloading && profile.resumeUrl.isNotBlank(),
