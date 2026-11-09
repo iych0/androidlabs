@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,7 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import org.koin.androidx.compose.koinViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
@@ -25,11 +26,13 @@ import androidx.navigation.navArgument
 import com.example.androidlabs.presentation.screens.details.DetailsViewModel
 import com.example.androidlabs.presentation.screens.details.RepoDetailsScreen
 import com.example.androidlabs.presentation.screens.list.RepoListScreen
+import com.example.androidlabs.presentation.screens.settings.SettingsScreen
 
 enum class BottomTab(val route: String, val title: String, val icon: ImageVector) {
     REPOS("repos_tab", "Репозитории", Icons.Default.Home),
     FAVORITES("favorites_tab", "Избранное", Icons.Default.Favorite),
-    PROFILE("profile_tab", "Профиль", Icons.Default.Person)
+    PROFILE("profile_tab", "Профиль", Icons.Default.Person),
+    SETTINGS("settings_tab", "Настройки", Icons.Default.Settings)
 }
 
 @Composable
@@ -70,6 +73,9 @@ fun MainScreen() {
                 RepoListScreen(
                     onRepoClick = { repoId ->
                         navController.navigate("details/$repoId")
+                    },
+                    onSettingsClick = {
+                        navController.navigate(BottomTab.SETTINGS.route)
                     }
                 )
             }
@@ -80,16 +86,20 @@ fun MainScreen() {
             ) { backStackEntry ->
                 val repoId = backStackEntry.arguments?.getLong("repoId") ?: return@composable
 
-                val detailsViewModel: DetailsViewModel = viewModel()
+                val detailsViewModel: DetailsViewModel = koinViewModel()
                 val repo by detailsViewModel.repo.collectAsStateWithLifecycle()
 
                 LaunchedEffect(repoId) {
                     detailsViewModel.loadRepo(repoId)
                 }
 
+                val isFavorite by detailsViewModel.isFavorite.collectAsStateWithLifecycle()
+
                 repo?.let { loadedRepo ->
                     RepoDetailsScreen(
                         repo = loadedRepo,
+                        isFavorite = isFavorite,
+                        onFavoriteClick = { detailsViewModel.toggleFavorite() },
                         onBackClick = { navController.popBackStack() }
                     )
                 }
@@ -101,6 +111,12 @@ fun MainScreen() {
 
             composable(route = BottomTab.PROFILE.route) {
                 PlaceholderScreen(title = "Раздел «Профиль»")
+            }
+
+            composable(route = BottomTab.SETTINGS.route) {
+                SettingsScreen(
+                    onDoneClick = { navController.popBackStack() }
+                )
             }
         }
     }

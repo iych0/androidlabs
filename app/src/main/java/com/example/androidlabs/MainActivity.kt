@@ -4,40 +4,29 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.example.androidlabs.di.appModule
 import com.example.androidlabs.presentation.screens.main.MainScreen
 import com.example.androidlabs.ui.theme.AndroidLabsTheme
+import org.koin.android.ext.koin.androidContext
+import org.koin.compose.KoinApplication
+import org.koin.dsl.koinConfiguration
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AndroidLabsTheme {
-                MainScreen()
-            }
+            KoinApplication(
+                configuration = koinConfiguration(declaration = {
+                    androidContext(this@MainActivity)
+                    modules(appModule)
+                }),
+                content = {
+                    AndroidLabsTheme {
+                        MainScreen()
+                    }
+                }
+            )
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AndroidLabsTheme {
-        Greeting("ddadasd")
     }
 }
