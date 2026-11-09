@@ -3,7 +3,6 @@ package com.example.androidlabs.presentation.screens.profile
 import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,8 +27,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.androidlabs.profile.FileHelper
 import coil.compose.AsyncImage
-import com.example.androidlabs.data.local.FileHelper
 import org.koin.androidx.compose.koinViewModel
 import java.util.Calendar
 import java.util.Locale

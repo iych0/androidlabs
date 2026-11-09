@@ -3,7 +3,6 @@ package com.example.androidlabs.di
 import androidx.room.Room
 import com.example.androidlabs.data.local.AppDatabase
 import com.example.androidlabs.data.local.BadgeCache
-import com.example.androidlabs.data.local.ProfileStorage
 import com.example.androidlabs.data.local.SettingsStorage
 import com.example.androidlabs.data.remote.RetrofitClient
 import com.example.androidlabs.data.repository.GithubRepositoryImpl
@@ -36,9 +35,7 @@ val appModule = module {
     single<GithubRepository> { GithubRepositoryImpl(api = get(), favoriteDao = get()) }
     single { GetUserReposUseCase(repository = get()) }
 
-    single { ProfileStorage(context = androidContext()) }
     viewModel { ProfileViewModel(profileStorage = get()) }
-
     viewModel { ListViewModel(getUserReposUseCase = get(), settingsStorage = get(), badgeCache = get()) }
     viewModel { SettingsViewModel(settingsStorage = get()) }
     viewModel { DetailsViewModel(repository = get()) }

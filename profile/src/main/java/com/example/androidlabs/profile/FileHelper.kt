@@ -1,4 +1,4 @@
-package com.example.androidlabs.data.local
+package com.example.androidlabs.profile
 
 import android.content.ActivityNotFoundException
 import android.content.Context
