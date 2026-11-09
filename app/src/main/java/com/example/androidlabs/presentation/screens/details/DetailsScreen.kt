@@ -6,10 +6,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -21,6 +24,8 @@ import com.example.androidlabs.domain.model.GithubRepo
 @Composable
 fun RepoDetailsScreen(
     repo: GithubRepo,
+    onFavoriteClick: () -> Unit,
+    isFavorite: Boolean,
     onBackClick: () -> Unit
 ) {
     Scaffold(
@@ -32,6 +37,15 @@ fun RepoDetailsScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Назад"
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onFavoriteClick) {
+                        Icon(
+                            imageVector = if (isFavorite) Icons.Default.Star else Icons.Outlined.StarBorder,
+                            contentDescription = "Избранное",
+                            tint = if (isFavorite) Color(0xFFFFC107) else MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }
